@@ -1,5 +1,6 @@
 //const { Phaser } = require("../lib/phaser");
 
+
 let config = {
     type: Phaser.CANVAS,
     width: 640,
