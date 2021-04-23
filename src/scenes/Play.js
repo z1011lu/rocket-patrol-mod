@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
         // load images/tile sprites
         this.load.image('rocket', './assets/rocket_01.png');
         this.load.image('spaceship', './assets/spaceship_01.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield', './assets/spacefield.png');
         this.load.image('speedship', './assets/spaceship_03.png');
 
         // load spritesheet
@@ -15,7 +15,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        //blace custom UI border
+        //place custom UI border
 
         // place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
@@ -60,6 +60,7 @@ class Play extends Phaser.Scene {
         // initialize score
         this.p1Score = 0;
 
+
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -75,6 +76,10 @@ class Play extends Phaser.Scene {
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
+
+        this.timerRight = this.add.text(game.config.width - borderUISize - borderPadding * 10, borderUISize + borderPadding*2, game.settings.gameTimer/1000, scoreConfig);
+        
+
         //Game over flag
         this.gameOver = false;
 
@@ -86,8 +91,24 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+
     }
     update() {
+        this.seconds += 0.01
+        //this.timerRight.text = game.settings.gameTimer/1000 - Math.floor(this.seconds)
+        /**
+        currentTime = new Date();
+        timeDifference = me.startTime.getTime() - currentTime.getTime();
+
+        this.timeElapsed = Math.abs(timeDiffernece/1000);
+        timeRemaining = this.game.settings.gameTimer - this.timeElapsed;
+
+
+        this.timerRight.text = timeRemaining;
+        **/
+
+
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -173,9 +194,19 @@ class Play extends Phaser.Scene {
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;   
-
-        this.sound.play('sfx_explosion');
+        let rng = Math.random();
+        if(rng < 0.25){
+            this.sound.play('sfx_explosion_0');
+        }else if(rng < 0.5){
+            this.sound.play('sfx_explosion_1');
+        }else if(rng < 0.75){
+            this.sound.play('sfx_explosion_2');
+        }else{
+            this.sound.play('sfx_explosion_3');
+        }
     }
+
+    
 
     
 }
