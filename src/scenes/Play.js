@@ -9,27 +9,33 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship_01.png');
         this.load.image('starfield', './assets/spacefield.png');
         this.load.image('speedship', './assets/spaceship_03.png');
+        this.load.image('UI_borders', './assets/UI_borders.png');
 
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion_spritesheet_01.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        //this.load.spritesheet('spaceship_thrust', './assets/spaceship_01_spritesheet.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 1});
     }
 
     create() {
-        //place custom UI border
 
         // place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
+        
 
         //this.add.text(20, 20, "Rocket Patrol Play");
 
         // green UI background
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x47a691).setOrigin(0, 0);
         // white borders
+        /*
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+*/
+        //place custom UI border
+        this.UI_borders = this.add.image(320, 240, 'UI_borders');
 
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
@@ -57,6 +63,13 @@ class Play extends Phaser.Scene {
             frameRate: 30
         });
 
+
+        this.anims.create({
+            key: 'spaceship_thrust',
+            frames: this.anims.generateFrameNumbers('thrust', { start: 0, end: 1, first: 0}),
+            frameRate: 30
+        });
+
         // initialize score
         this.p1Score = 0;
 
@@ -77,7 +90,7 @@ class Play extends Phaser.Scene {
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
 
-        this.timerRight = this.add.text(game.config.width - borderUISize - borderPadding * 10, borderUISize + borderPadding*2, game.settings.gameTimer/1000, scoreConfig);
+        //this.timerRight = this.add.text(game.config.width - borderUISize - borderPadding * 10, borderUISize + borderPadding*2, game.settings.gameTimer/1000, scoreConfig);
         
 
         //Game over flag
@@ -125,7 +138,16 @@ class Play extends Phaser.Scene {
             this.ship04.update();               // update speedships (x3)
             this.ship05.update();
             this.ship06.update();
+
         }
+/*
+        this.ship01.shipThrust();               // update spaceships (x3)
+        this.ship02.shipThrust();
+        this.ship03.shipThrust();
+
+        this.ship04.shipThrust();               // update speedships (x3)
+        this.ship05.shipThrust();
+        this.ship06.shipThrust();*/
 
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -181,7 +203,7 @@ class Play extends Phaser.Scene {
 
     shipExplode(ship) {
         // temporarily hide ship
-        ship.alpha = 0;
+        ship.alpha = 0.3;
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
@@ -205,6 +227,16 @@ class Play extends Phaser.Scene {
             this.sound.play('sfx_explosion_3');
         }
     }
+
+    /*
+    shipThrust(ship) {
+        // temporarily hide ship
+        //ship.alpha = 0;
+        // create explosion sprite at ship's position
+        let thrust = this.add.sprite(ship.x, ship.y, 'spaceship').setOrigin(0, 0);
+        boom.anims.play('thrust');             // play explode animation   
+    }
+    */
 
     
 
