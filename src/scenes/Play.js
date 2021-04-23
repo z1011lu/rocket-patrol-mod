@@ -11,6 +11,14 @@ class Play extends Phaser.Scene {
         this.load.image('speedship', './assets/spaceship_03.png');
         this.load.image('UI_borders', './assets/UI_borders.png');
 
+        //load parallax
+        this.load.image('starfield_0', './assets/spacefield_parallax_0.png');
+        this.load.image('starfield_1', './assets/spacefield_parallax_1.png');
+        this.load.image('starfield_2', './assets/spacefield_parallax_2.png');
+        this.load.image('starfield_3', './assets/spacefield_parallax_3.png');
+        this.load.image('starfield_4', './assets/spacefield_parallax_4.png');
+        
+
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion_spritesheet_01.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         //this.load.spritesheet('spaceship_thrust', './assets/spaceship_01_spritesheet.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 1});
@@ -19,7 +27,13 @@ class Play extends Phaser.Scene {
     create() {
 
         // place tile sprite
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        //this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+
+        this.starfield_1 = this.add.tileSprite(0, 0, 640, 480, 'starfield_1').setOrigin(0, 0);
+        this.starfield_2 = this.add.tileSprite(0, 0, 640, 480, 'starfield_2').setOrigin(0, 0);
+        this.starfield_3 = this.add.tileSprite(0, 0, 640, 480, 'starfield_3').setOrigin(0, 0);
+        this.starfield_4 = this.add.tileSprite(0, 0, 640, 480, 'starfield_4').setOrigin(0, 0);
+        
 
         
 
@@ -63,12 +77,12 @@ class Play extends Phaser.Scene {
             frameRate: 30
         });
 
-
+        /*
         this.anims.create({
             key: 'spaceship_thrust',
             frames: this.anims.generateFrameNumbers('thrust', { start: 0, end: 1, first: 0}),
             frameRate: 30
-        });
+        });*/
 
         // initialize score
         this.p1Score = 0;
@@ -127,7 +141,14 @@ class Play extends Phaser.Scene {
             this.scene.restart();
         }
         
-        this.starfield.tilePositionX -= 4;
+
+        this.starfield_1.tilePositionX -= 0.2;
+        this.starfield_2.tilePositionX -= 1;
+        this.starfield_3.tilePositionX -= 0.5;
+        this.starfield_4.tilePositionX -= 2;
+
+
+        //this.starfield.tilePositionX -= 4;
         this.p1Rocket.update();
 
         if (!this.gameOver) { 
